@@ -163,7 +163,7 @@ class Player {
                 this.auras['potentvenoms' + i] = new PotentVenoms(this, null, i);
         }
         if (this.spells.shieldslam) this.auras.defendersresolve = new DefendersResolve(this);
-        
+
         if ((this.basestance == 'def' || this.basestance == 'glad') && this.spells.sunderarmor && this.devastate && this.shield) {
             this.spells.sunderarmor.devastate = true;
             this.spells.sunderarmor.nocrit = false;
@@ -311,7 +311,7 @@ class Player {
                         this.base['moddmgdone'] += 4;
                     if (item.id == 227809)
                         this.base['moddmgdone'] += 3;
-                    
+
                     if (item.id == 228122)
                         this.spells.themoltencore = new TheMoltenCore(this);
 
@@ -531,7 +531,7 @@ class Player {
                         if (bonus.stats.procspell) {
                             this.auras[bonus.stats.procspell.toLowerCase()] = eval('new ' + bonus.stats.procspell + '(this)');
                             proc.spell = this.auras[bonus.stats.procspell.toLowerCase()];
-                        } 
+                        }
                         if (this.attackproc2) console.log("Warning! overlapping attack procs!");
                         if (!this.attackproc1) this.attackproc1 = proc;
                         else this.attackproc2 = proc;
@@ -589,9 +589,9 @@ class Player {
                     this.dragonbreath = true;
                 if (buff.bleedmod)
                     this.bleedmod *= buff.bleedmod;
-                if (buff.armor) 
+                if (buff.armor)
                     this.target.basearmorbuffed -= buff.armor + ((buff.name == "Expose Armor" || buff.name == "Sebacious Poison") && this.improvedexposed ? buff.armor * 0.5 : 0);
-                if (buff.armorperlevel) 
+                if (buff.armorperlevel)
                     this.target.basearmorbuffed -= (buff.armorperlevel * this.level);
                 if (buff.name == "Faerie Fire")
                     this.faeriefire = true;
@@ -612,7 +612,7 @@ class Player {
                 if (buff.group == "trueshot" && this.mode == "sod") {
                     buff.ap = buff.apsod;
                 }
-                    
+
                 this.base.ap += ap || buff.ap || 0;
                 this.base.agi += agi || buff.agi || 0;
                 this.base.str += str || buff.str || 0;
@@ -646,7 +646,7 @@ class Player {
                     this.base.resist.nature += ~~(buff.resist.nature * (impmotw ? impmotw.motwmod : 1) || 0);
                     this.base.resist.shadow += ~~(buff.resist.shadow * (impmotw ? impmotw.motwmod : 1) || 0);
                 }
-                
+
             }
         }
         this.target.basearmorbuffed = Math.max(this.target.basearmorbuffed, 0);
@@ -662,7 +662,7 @@ class Player {
                 else spell.timetoendactive = true;
             }
             if (spell.active || (spell.item && this.items.includes(spell.id) && (spell.timetoendactive || spell.timetostartactive))) {
-                if (!spell.aura && this.mh.type == WEAPONTYPE.FISHINGPOLE) continue; 
+                if (!spell.aura && this.mh.type == WEAPONTYPE.FISHINGPOLE) continue;
                 if (spell.item && !this.items.includes(spell.id)) continue;
                 if (spell.aura) this.auras[spell.classname.toLowerCase()] = eval(`new ${spell.classname}(this, ${spell.id})`);
                 else this.spells[spell.classname.toLowerCase()] = eval(`new ${spell.classname}(this, ${spell.id})`);
@@ -1227,7 +1227,7 @@ class Player {
         if (this.auras.moonstalkerfury && this.auras.moonstalkerfury.timer) this.auras.moonstalkerfury.end();
         if (this.auras.demontaintedblood && this.auras.demontaintedblood.timer) this.auras.demontaintedblood.end();
         if (this.auras.jujuflurry && this.auras.jujuflurry.timer) this.auras.jujuflurry.end();
-        
+
 
         if (this.mh.windfury && this.mh.windfury.timer) this.mh.windfury.end();
         if (this.trinketproc1 && this.trinketproc1.spell && this.trinketproc1.spell.timer) this.trinketproc1.spell.end();
@@ -1247,7 +1247,7 @@ class Player {
         if (this.auras.consumedrage && this.auras.consumedrage.timer) this.auras.consumedrage.end();
         if (this.auras.weaponbleedmh && this.auras.weaponbleedmh.timer) this.auras.weaponbleedmh.end();
         if (this.auras.weaponbleedoh && this.auras.weaponbleedoh.timer) this.auras.weaponbleedoh.end();
-        
+
 
     }
     rollweapon(weapon) {
@@ -1286,12 +1286,12 @@ class Player {
     }
     rollmagicspell(spell) {
         let miss = this.target.misschance;
-        if (spell.binaryspell) 
+        if (spell.binaryspell)
             miss = this.target.binaryresist;
 
-        if (rng10k() < miss) 
+        if (rng10k() < miss)
             return RESULT.MISS;
-        if (rng10k() < (this.stats.spellcrit * 100)) 
+        if (rng10k() < (this.stats.spellcrit * 100))
             return RESULT.CRIT;
         return RESULT.HIT;
     }
@@ -1400,11 +1400,11 @@ class Player {
             return 0;
         }
         if (this.spells.ragingblow) this.spells.ragingblow.reduce(spell);
-        
+
         let dmg = spell.dmg() * this.mh.modifier;
         if (dmg) dmg += this.stats.moddmgtaken;
         let result;
-        if (spell.defenseType == DEFENSETYPE.MELEE) 
+        if (spell.defenseType == DEFENSETYPE.MELEE)
             result = this.rollmeleespell(spell);
         else if(spell.defenseType == DEFENSETYPE.MAGIC)
             result = this.rollmagicspell(spell);
@@ -1425,7 +1425,7 @@ class Player {
         }
         else if (result == RESULT.CRIT) {
             let critmod;
-            if (spell.defenseType == DEFENSETYPE.MAGIC) 
+            if (spell.defenseType == DEFENSETYPE.MAGIC)
                 critmod = 1 + 0.5 * (1 + this.talents.abilitiescrit) * (1 + this.critdmgbonus * 3);
             else
                 critmod = 1 + 1 * (1 + this.talents.abilitiescrit) * (1 + this.critdmgbonus * 2);
@@ -1508,10 +1508,6 @@ class Player {
         if (result != RESULT.MISS && result != RESULT.DODGE) {
             if (spell instanceof Execute) {
                 this.rage = 0;
-                if (this.auras.suddendeath && this.auras.suddendeath.timer) {
-                    this.rage = 10;
-                    this.auras.suddendeath.remove();
-                }
             }
             if (weapon.proc1 && !weapon.proc1.extra && rng10k() < weapon.proc1.chance && !(weapon.proc1.gcd && this.timer && this.timer < 1500)) {
                 if (weapon.proc1.spell) weapon.proc1.spell.use();
@@ -1558,14 +1554,14 @@ class Player {
                 }
             }
             if (this.attackproc1 && rng10k() < this.attackproc1.chance) {
-                if (this.attackproc1.magicdmg) { 
+                if (this.attackproc1.magicdmg) {
                     procdmg += this.attackproc1.chance == 10000 ? this.attackproc1.magicdmg : this.magicproc(this.attackproc1);
                     /* start-log */ if (log) this.log(`Attack proc for ${procdmg}`); /* end-log */
                 }
                 if (this.attackproc1.spell) this.attackproc1.spell.use();
             }
             if (this.attackproc2 && rng10k() < this.attackproc2.chance) {
-                if (this.attackproc2.magicdmg) { 
+                if (this.attackproc2.magicdmg) {
                     procdmg += this.attackproc2.chance == 10000 ? this.attackproc2.magicdmg : this.magicproc(this.attackproc2);
                     /* start-log */ if (log) this.log(`Attack proc for ${procdmg}`); /* end-log */
                 }
@@ -1692,11 +1688,11 @@ class Player {
         if (stance == 'def') this.auras.defensivestance.timer = 1;
         if (stance == 'glad') this.auras.gladiatorstance.timer = 1;
         this.rage = Math.min(this.rage, this.talents.rageretained);
-        
+
         if (this.auras.echoesstance) this.auras.echoesstance.use(prev);
         if (this.auras.battleforecast && (this.stance == 'battle' || this.stance == 'glad')) {
             this.auras.battleforecast.use();
-        } 
+        }
         if (this.auras.berserkerforecast && this.stance == 'zerk') {
             this.auras.berserkerforecast.use();
         }
@@ -1714,10 +1710,10 @@ class Player {
             (isRend && this.stance == 'zerk' && this.bloodfrenzy);
     }
     isEnraged() {
-        return (this.auras.wreckingcrew && this.auras.wreckingcrew.timer) || 
-            (this.auras.consumedrage && this.auras.consumedrage.timer) || 
-            (this.auras.freshmeat && this.auras.freshmeat.timer) || 
-            (this.auras.bloodrage && this.auras.bloodrage.timer) || 
+        return (this.auras.wreckingcrew && this.auras.wreckingcrew.timer) ||
+            (this.auras.consumedrage && this.auras.consumedrage.timer) ||
+            (this.auras.freshmeat && this.auras.freshmeat.timer) ||
+            (this.auras.bloodrage && this.auras.bloodrage.timer) ||
             (this.auras.berserkerrage && this.auras.berserkerrage.timer);
     }
 }

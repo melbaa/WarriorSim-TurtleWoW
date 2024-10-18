@@ -593,21 +593,21 @@ var talents = [
          },
          {
             i: 1542,
-            n: 'Improved Execute',
+            n: 'Reckless Execute',
             m: 2,
             s: [
                20502,
                20503
             ],
             d: [
-               'Reduces the Rage cost of your Execute ability by 2.',
-               'Reduces the Rage cost of your Execute ability by 5.'
+               'Reduces the Cooldown of your Execute ability by 2 seconds.',
+               'Reduces the Cooldown of your Execute ability by 4 seconds.'
             ],
             x: 1,
             y: 3,
             c: 0,
             iconname: 'INV_Sword_48',
-            aura: function (count) { return { executecost: count == 2 ? 5 : count * 2 } },
+            aura: function (count) { return {recklessexecute: count} },
          },
          {
             i: 155,
